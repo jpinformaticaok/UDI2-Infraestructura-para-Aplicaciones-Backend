@@ -9,9 +9,16 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connect
 var app = builder.Build();
 
 // 1. Endpoint para Unidad 1: Ciclo de Vida y Entornos
-app.MapGet("/api/status", () =>
+app.MapGet("/api/status", (IConfiguration config, IHostEnvironment env) =>
 {
-    return Results.Text("El servidor está activado!");
+    var response = new
+    {
+        AppName = config["AppSettings:AppName"],
+        Environment = env.EnvironmentName,
+        EnabledDetailedLogs = config.GetValue<bool>("AppSettings:FeatureFlag_EnableDetailedLogs"),
+        databasetimeout = config["DATABASE_TIMEOUT"] ?? "No definida"
+    };
+    return Results.Ok(response);
 });
 
 // 2. Endpoint para Unidad 3 y 4: Persistencia y prueba de lectura
