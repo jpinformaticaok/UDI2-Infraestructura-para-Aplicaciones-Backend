@@ -36,16 +36,6 @@ app.MapGet("/api/status", (IConfiguration config, IHostEnvironment env) =>
     return Results.Ok(response);
 });
 
-// 2. Endpoint para Unidad 3 y 4: Persistencia y prueba de lectura
-app.MapGet("/api/items", async (AppDbContext db) => await db.Items.ToListAsync());
-
-// 3. Endpoint para probar escrituras / CORS desde clientes web
-app.MapPost("/api/items", async (Item item, AppDbContext db) => {
-    db.Items.Add(item);
-    await db.SaveChangesAsync();
-    return Results.Created($"/api/items/{item.Id}", item);
-});
-
 app.MapGet("Api/kestrel-info", () => 
 {
     //Obtencion de metricas del ThreadPool
