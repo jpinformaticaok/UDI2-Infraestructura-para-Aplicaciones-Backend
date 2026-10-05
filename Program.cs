@@ -15,6 +15,14 @@ builder.WebHost.ConfigureKestrel(options =>
 
 var app = builder.Build();
 
+// Creación automática del esquema en la base de datos remota si no existe
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.EnsureCreated();
+}
+
+
 // 1. Endpoint para Unidad 1: Ciclo de Vida y Entornos
 app.MapGet("/api/status", (IConfiguration config, IHostEnvironment env) =>
 {

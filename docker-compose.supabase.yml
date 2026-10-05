@@ -1,0 +1,5 @@
+services:
+  web_api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=${postgresql://postgres:[+hmakA-x7TB_/s&]@db.kbymyunqidfglwajxdwx.supabase.co:5432/postgres}
